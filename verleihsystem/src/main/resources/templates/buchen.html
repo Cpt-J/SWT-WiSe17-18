@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Verleihportal 1.0 | Willkommen!</title>
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" type="text/css" />
+
+    <style>
+        .overlay {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            transition: opacity 500ms;
+            visibility: hidden;
+            opacity: 0;
+        }
+
+        .overlay:target {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .popup {
+            padding: 20px;
+            background: #fff;
+            border-radius: 5px;
+            width: 30%;
+            position: relative;
+            transition: all 5s ease-in-out;
+            margin: 20% auto 70px;
+        }
+
+        .popup h2 {
+            margin-top: 0;
+            color: #333;
+            font-family: Tahoma, Arial, sans-serif;
+        }
+
+        .popup .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            transition: all 200ms;
+            font-size: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .popup .close:hover {
+            color: #06D85F;
+        }
+
+        .popup .content {
+            max-height: 30%;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body class="bg-dark">
+<header>
+        <div class="trailer">
+                <nav class="navbar bg-blue fixed-top">
+                       <div class="container">
+                            <nav class="navbar navbar-light"><a class="navbar-brand" href="#"><img th:src="@{/img/fhlogo.svg}" width="20%" height="20%"/></a></nav>
+                        </div>
+                </nav>
+
+                <div class="jumbotron">
+                    <div class="container">
+                        <div class="card">
+                                <div class="card-block">
+                                    <h1>Anfrage Detailansicht</h1>
+                                </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="container">
+                        <div class="row" style="padding-bottom: 0.5%">
+                            <div class="col-md-6" style="margin: 0 auto;">
+                                    <div class="card">
+                                    <nav>
+                                            <div class="drowdown">
+                                                <form action="#" th:action="@{/dashboard}" th:object="${benutzer}" method="get">
+                                                    <button class="dropbtn">Einstellungen</button>
+                                                    <div class="dropdown-content">
+                                                        <a th:href="@{/dashboard}">Dashboard</a>
+                                                        <a th:href="@{/logout}">Abmelden</a>
+                                                        <a href="#">Konto löschen</a>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            </nav>
+                                        </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+</header>
+
+<div class="container">
+    <div class="row">
+        <div class="card">
+            <div class="card-header">
+                <h3>Details:</h3>
+            </div>
+
+            <div class="artikel">
+                    <img th:src="@{/img/bohrer.png}"  width="30%" border="1px"/>
+
+                    <div id="details">
+                        <table>
+                            <tr>
+                                <td>Artikelkategorie:</td>
+                                <td th:text="${anfrage.artikel.kategorie.bezeichnung}"></td>
+                            </tr>
+                            <tr>
+                                <td>Artikelzustand:</td>
+                                <td th:text="${anfrage.artikel.zustand}"></td>
+                            </tr>
+                            <tr>
+                                <td>Anfrage-ID:</td>
+                                <td th:text="${anfrage.id}"></td>
+                            </tr>
+                            <tr>
+                                <td>Pfandgebuehr:</td>
+                                <td th:text="${anfrage.artikel.pfand.pfandBetrag}"></td>
+                            </tr>
+                            <tr>
+                                <td>Verleihgebuehr:</td>
+                                <td th:text="${anfrage.artikel.gebuehr}"></td>
+                            </tr>
+                            <tr>
+                                <td>Verleiher:</td>
+                                <td th:text="${anfrage.verleiher.benutzername}"></td>
+                            </tr>
+                            <tr>
+                                <td>Status der Anfrage:</td>
+                                <td th:text="${anfrage.status}"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 2%; width: 52%">
+                <div class="uhrzeit">
+                        <div id="ausleihuhrzeit">
+                            <div class="card-header"><h3>Ausleih-Uhrzeit</h3></div>
+                            <p th:text="${anfrage.ausgabeTermin.uhrzeit}"></p>
+                        </div>
+                        <div id="rückgabeuhrzeit">
+                            <div class="card-header"><h3>Rueckgabe-Uhrzeit</h3></div>
+                            <p th:text="${anfrage.rueckgabeTermin.uhrzeit}"></p>
+
+                        </div>
+                    </div>
+            </div>
+
+        <div class="card" style="margin-top: 2%; width: 52%;">
+                <div class="orte">
+                        <div id="übergabeort">
+                            <div class="card-header"><h3>Übergabeort</h3></div>
+                            <p th:text="${anfrage.ausgabeTermin.ort.strasse} + ' ' +${anfrage.ausgabeTermin.ort.nummer} + ', ' +${anfrage.ausgabeTermin.ort.plz} + ' ' + ${anfrage.ausgabeTermin.ort.stadt}"></p>
+                            <p th:text="${anfrage.ausgabeTermin.ort.beschreibung}"></p>
+                        </div>
+                        <div id="rückgabeort">
+                            <div class="card-header"><h3>Rückgabeort</h3></div>
+                            <br/>
+                            <p th:text="${anfrage.rueckgabeTermin.ort.strasse} + ' ' +${anfrage.rueckgabeTermin.ort.nummer} + ', ' +${anfrage.rueckgabeTermin.ort.plz} + ' ' + ${anfrage.rueckgabeTermin.ort.stadt}"></p>
+                            <p th:text="${anfrage.rueckgabeTermin.ort.beschreibung}"></p>
+                        </div>
+                    </div>
+        </div>
+
+
+        <div class="card" style="margin-top: 2%; width: 52%">
+                <div th:if="${anfrage.kommentar.length()} > 0">
+                        <div class="card-header"><h3>Kommentar</h3></div>
+                            <p th:text="${anfrage.kommentar}"></p>
+                    </div>
+
+
+                <div th:if="${ausleiher} == true">
+                        <div th:switch="${anfrage.status.name()}">
+                            <div th:case="bestaetigt">
+                                <a href="#popup_bestaetigt">
+                                    <button>Buchen</button>
+                                </a>
+                                <div id="popup_bestaetigt" class="overlay">
+                                    <div class="popup">
+                                        <h2>Wirklich Buchen?</h2>
+                                        <a class="close" href="#">&times;</a>
+                                        <div class="content">
+                                            <form action="#" th:action="@{/buchen/} + ${anfrage.id}" method="get">
+                                                <button>Buchen</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="float-right">Stornieren</button>
+                            </div>
+                        </div>
+                </div>
+
+                <div th:if="${verleiher} == true">
+                        <div th:switch="${anfrage.status.name()}">
+                            <div th:case="offen">
+                                <form action="#" th:object="${anfrage}" th:action="@{/bestaetigen/} + ${anfrage.id}" method="post">
+                                    <div id="commentbox_verleiher">
+                                        <textarea rows="6" cols="79" th:field="*{kommentar}" placeholder="Kommentar"></textarea>
+                                    </div>
+                                <a href="#popup_offen">
+                                    <button type="button">Bestaetigen</button>
+
+                                </a>
+                                    <button class="float-right" type="button">Ablehnen</button>
+                                <div id="popup_offen" class="overlay">
+                                    <div class="popup">
+                                        <h2>Wirklich Bestaetigen?</h2>
+                                        <a class="close" href="#">&times;</a>
+                                        <div class="content">
+                                                <button>Bestaetigen</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                </form>
+
+
+                            </div>
+                        </div>
+                    </div>
+        </div>
+    </div>
+
+
+
+
+
+<footer>
+        <div>
+        <nav class="navbar bg-blue fixed-bottom">
+            <div class="container">
+                 <nav class="navbar navbar-light">
+                     <span class="navbar-text">Dieses Projekt ist das geistige Eigentum der Projektgruppe</span>
+                 </nav>
+             </div>
+            </nav>
+        </div>
+    </footer>
+
+</body>
+
+</html>

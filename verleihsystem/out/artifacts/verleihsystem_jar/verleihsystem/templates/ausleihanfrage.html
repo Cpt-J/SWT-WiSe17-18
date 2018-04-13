@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Verleihportal 1.0 | Willkommen!</title>
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" type="text/css"/>
+
+    <style th:if="${ort1}==true">
+        .ort1 {
+            border: 2px solid red;
+            border-radius: 4px;
+        }
+    </style>
+    <style th:if="${ort2}==true">
+        .ort2 {
+            border: 2px solid red;
+            border-radius: 4px;
+        }
+    </style>
+    <style th:if="${time1}==true">
+        .time1 {
+            border: 2px solid red;
+            border-radius: 4px;
+        }
+    </style>
+    <style th:if="${time2}==true">
+        .time2 {
+            border: 2px solid red;
+            border-radius: 4px;
+        }
+    </style>
+    <style th:if="${date1}==true">
+        .date1 {
+            border: 2px solid red;
+            border-radius: 4px;
+        }
+    </style>
+    <style th:if="${date2}==true">
+        .date2 {
+            border: 2px solid red;
+            border-radius: 4px;
+        }
+    </style>
+
+</head>
+<body class="bg-dark">
+<header>
+    <div class="trailer">
+        <nav class="navbar bg-blue fixed-top">
+            <div class="container">
+                <nav class="navbar navbar-light"><a class="navbar-brand" href="#"><img th:src="@{/img/fhlogo.svg}"
+                                                                                       width="20%" height="20%"/></a>
+                </nav>
+            </div>
+        </nav>
+
+        <div class="jumbotron">
+            <div class="container">
+                <div class="card">
+                    <div class="card-block">
+                        <h1>Ausleihanfrage</h1>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="container">
+            <div class="row" style="padding-bottom: 0.5%">
+                <div class="col-md-6" style="margin: 0 auto;">
+                    <div class="card">
+                        <nav>
+                            <div class="drowdown">
+                                <form action="#" th:action="@{/dashboard}" th:object="${benutzer}" method="get">
+                                    <button class="dropbtn">Einstellungen</button>
+                                    <div class="dropdown-content">
+                                        <a th:href="@{/dashboard}">Dashboard</a>
+                                        <a th:href="@{/logout}">Abmelden</a>
+                                        <a href="#">Konto löschen</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</header>
+
+<div class="container">
+    <div class="card" style="width: 50%; margin-top: 2%">
+        <div class="card-header"><h3>Details</h3></div>
+        <table style="margin-left: 3%">
+            <tr>
+                <td>Artikelkategorie:</td>
+                <td th:text="${artikel.kategorie.bezeichnung}"></td>
+            </tr>
+            <tr>
+                <td>Artikelzustand:</td>
+                <td th:text="${artikel.zustand}"></td>
+            </tr>
+            <br/>
+            <tr th:if="${artikel.pfand}!= null">
+                <td>Pfandgebuehr:</td>
+                <td th:text="${artikel.pfand.pfandBetrag}"></td>
+            </tr>
+            <tr th:if="${artikel.gebuehr} != null">
+                <td>Verleihgebuehr:</td>
+                <td th:text="${artikel.gebuehr}"></td>
+            </tr>
+            <tr>
+                <td>Verleiher</td>
+                <td th:text="${artikel.verleiher.benutzername}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="card" style="margin-top: 2%">
+        <form th:object="${anfrage}" action="#" method="post" th:action="@{/ausleihanfrage/}+${artikel.id}">
+            <table style="margin-left: 3%">
+                <div class="card-header"><h3>Ausleihdatum und Rueckgabedatum</h3></div>
+                <tr>
+                    <td>
+                        <input class="date1" type="date" th:field="*{ausgabeTermin.datumString}"
+                               placeholder="2017-12-01"/>
+                    </td>
+                    <td>
+                        <input class="date2" type="date" th:field="*{rueckgabeTermin.datumString}"
+                               placeholder="2017-12-10"/>
+                    </td>
+                    <td style="color:red" th:utext="${error1}"></td>
+                </tr>
+
+            </table>
+
+            <br/>
+
+            <table style="margin-left: 3%">
+                <tr>
+                    <div class="card-header"><h3>Ausleih- und Rückgabezeit</h3></div>
+                </tr>
+                <tr>
+                    <td>
+                        <input class="time1" type="time" th:field="*{ausgabeTermin.uhrzeitString}" placeholder="20:10"/>
+                    </td>
+                    <td>
+                        <input class="time2" type="time" th:field="*{rueckgabeTermin.uhrzeitString}"
+                               placeholder="20:10"/>
+                    </td>
+                    <td style="color:red" th:utext="${error2}"></td>
+                </tr>
+            </table>
+            <br/>
+            <!--Übergabe & Rückgabeort -->
+            <div class="card-header"><h3>Übergabeort</h3></div>
+            <select class="ort1" th:field="*{ausgabeTermin.ort}" style="margin-left: 3%">
+                <option value="">Ort waehlen</option>
+                <option th:each="ort : ${artikel.uebergabeorte}"
+                        th:value="${ort.id}"
+                        th:text="${ort.beschreibung}+', '+${ort.strasse}+' '+${ort.nummer}"></option>
+            </select><span style="color:red" th:utext="${error3}"></span>
+            <br/>
+
+            <div class="card-header"><h3>Rückgabeort</h3></div>
+            <select class="ort2" th:field="*{rueckgabeTermin.ort}" style="margin-left: 3%">
+                <option value="">Ort waehlen</option>
+                <option th:each="ort : ${artikel.uebergabeorte}"
+                        th:value="${ort.id}"
+                        th:text="${ort.beschreibung}+', '+${ort.strasse}+' '+${ort.nummer}"></option>
+            </select><span style="color:red" th:utext="${error4}"></span>
+            <br/><br/><br/>
+            <button th:type="submit" style="margin-left: 3%">Ausleihanfrage stellen</button>
+        </form>
+
+    </div>
+</div>
+
+<footer>
+    <div>
+        <nav class="navbar bg-blue fixed-bottom">
+            <div class="container">
+                <nav class="navbar navbar-light">
+                    <span class="navbar-text">Dieses Projekt ist das geistige Eigentum der Projektgruppe</span>
+                </nav>
+            </div>
+        </nav>
+    </div>
+</footer>
+
+</body>
+</html>

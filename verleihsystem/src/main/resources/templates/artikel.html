@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Verleihportal 1.0 | Willkommen!</title>
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" type="text/css"/>
+
+</head>
+<body class="bg-dark">
+<header>
+    <div class="trailer">
+        <nav class="navbar bg-blue fixed-top">
+            <div class="container">
+                <nav class="navbar navbar-light"><a class="navbar-brand" href="#"><img th:src="@{/img/fhlogo.svg}" width="20%"
+                                                                                       height="20%"/></a></nav>
+            </div>
+        </nav>
+
+        <div class="jumbotron">
+            <div class="container">
+                <div class="card">
+                    <div class="card-block">
+                        <h1>Artikeldetails</h1>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="container">
+            <div class="row" style="padding-bottom: 0.5%">
+                <div class="col-md-6" style="margin: 0 auto;">
+                    <div class="card">
+                        <nav>
+                            <div class="drowdown">
+                                <form action="#" th:action="@{/dashboard}" th:object="${benutzer}" method="get">
+                                    <button class="dropbtn">Einstellungen</button>
+                                    <div class="dropdown-content">
+                                        <a th:href="@{/dashboard}">Dashboard</a>
+                                        <a th:href="@{/logout}">Abmelden</a>
+                                        <a href="#">Konto löschen</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</header>
+
+<div class="container">
+    <div class="card" style="margin-top: 3%">
+        <div class="artikel">
+            <div id="details">
+                <table style="margin-left: 3%">
+                    <tr>
+                        <td>Name:</td>
+                        <td th:text="${artikel.name}"></td>
+                    </tr>
+                    <tr>
+                        <td>Artikelkategorie:</td>
+                        <td th:text="${artikel.kategorie.bezeichnung}"></td>
+                    </tr>
+                    <tr>
+                        <td>Artikelzustand:</td>
+                        <td th:text="${artikel.zustand}"></td>
+                    </tr>
+                    <tr th:if="${artikel.pfand} != null">
+                        <td>Pfandgebuehr:</td>
+                        <td th:text="${artikel.pfand.pfandBetrag}"></td>
+                    </tr>
+                    <tr th:if="${artikel.gebuehr} != null">
+                        <td>Verleihgebuehr:</td>
+                        <td th:text="${artikel.gebuehr}"></td>
+                    </tr>
+                    <tr>
+                        <td>Artikel-ID:</td>
+                        <td th:text="${artikel.id}"></td>
+                    </tr>
+                    <tr>
+                        <td>Verleiher:</td>
+                        <td th:text="${artikel.verleiher.benutzername	}"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card" style="margin-top: 3%">
+        <div class="card-header"><h3>ArtikelDetails</h3></div>
+
+
+        <div class="artdetails" style="margin-left: 3%">
+
+            <div class="artikelbeschreibung">
+                <p><b>Artikelbeschreibung</b></p>
+                <br/>
+                <span th:text="${artikel.beschreibung}"></span>
+                <br/>
+            </div>
+
+            <div class="technischedetails">
+                <p><b>Technische Details</b></p>
+
+                <span th:text="${artikel.technischeDaten}"></span>
+                <br/>
+            </div>
+
+
+            <div class="technischedetails">
+                <p><b>Mögliche Übergabeorte</b></p>
+
+
+                <ul th:each="ort:${artikel.uebergabeorte}" style="list-style: none">
+                    <li th:text="${ort.beschreibung}+', '+${ort.strasse}+' '+${ort.nummer}"></li>
+                </ul>
+                <br/>
+            </div>
+
+
+        </div>
+
+
+        <form action="#" th:if="${login} == true" th:action="@{/ausleihanfrage/} + ${artikel.id}" method="get"
+              style="margin-left: 3%">
+            <button type="submit">
+                Ausleihanfrage stellen
+            </button>
+        </form>
+    </div>
+</div>
+
+
+<footer>
+    <div>
+        <nav class="navbar bg-blue fixed-bottom">
+            <div class="container">
+                <nav class="navbar navbar-light">
+                    <span class="navbar-text">Dieses Projekt ist das geistige Eigentum der Projektgruppe</span>
+                </nav>
+            </div>
+        </nav>
+    </div>
+</footer>
+</body>
+</html>

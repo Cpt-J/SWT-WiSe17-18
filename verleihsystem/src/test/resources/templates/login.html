@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>Login</title>
+    </head>
+
+    <body>
+        <form action="#" th:action="@{/login}" th:object="${benutzer}" method="post">
+            <table>
+                <tr>
+                    <td><input type="text" placeholder="Benutzername" th:field="*{benutzername}"></td>
+                    <td><input type="password" placeholder="Passwort" th:field="*{passwort}"></td>
+                    <td th:if="${failure}==true">Benutzername oder Passwort falsch</td>  <!--Bei fehlgeschlagenem Login Nachricht anzeigen-->
+                    <td><input type="submit" value="Anmelden"/></td>
+                </tr>
+            </table>
+        </form>
+
+    </body>
+
+
+
+
+</html>

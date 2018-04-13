@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <!--<link rel="stylesheet" type="text/css" href="css/bootstrap.css">-->
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" type="text/css" />
+    <title>Login</title>
+    <style>
+        body {
+    /*        background: darkslategray; */
+    /*        color: blanchedalmond; */
+        }
+    </style>
+
+</head>
+
+<header>
+        
+    <div class="trailer">
+        <nav class="navbar bg-blue fixed-top">
+               <div class="container">
+                    <nav class="navbar navbar-light"><a class="navbar-brand" href="#"><img th:src="@{img/fhlogo.svg}" width="20%" height="20%"/></a></nav>
+                </div>
+        </nav>
+
+        <div class="jumbotron">
+            <div class="container">
+                <div class="card">
+                        <div class="card-block">
+                            <h1>Softwaretechnik I - Projekt</h1>
+                            <h3 class="text-center">Verleihsystem</h3> <!-- hier soll der Name vom System sein-->
+                        </div>
+                </div>
+                
+                <div class="card" style="margin-top: 2rem">
+                    <h3 class="text-center">Unser Team</h3>
+                        <ul class="list-group list-group-flush">
+                          <li class="list-group-item text-center">Christoph Thomas (Matr.-Nr.: 285184)</li>
+                          <li class="list-group-item text-center">Dominik Schikowski (Matr.-Nr.: 276203)</li>
+                          <li class="list-group-item text-center">Elmar Borchard (Matr.-Nr.: 288385)</li>
+                          <li class="list-group-item text-center">Jake Stradling (Matr.-Nr.: 278670)</li>
+                          <li class="list-group-item text-center">Vu Nguyen (Matr.-Nr.: 285443)</li>
+                            <li class="list-group-item text-center">Hakim Mergan (Matr.-Nr.: 276229)</li>
+                        </ul>
+                      </div>
+            </div>
+           
+        </div>
+    </div>
+
+</header>
+<body class="bg-dark">
+    <div class="container h-100">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-block">
+                        <h4 class="card-title text-center">Bitte melden Sie sich an</h4>
+                        <div style="color: red" th:if="${failure}== true" class="align-items-center">
+                            Benutzername oder Passwort falsch
+                            <style>
+                                input {
+                                    border: 2px solid red;
+                                    border-radius: 4px;
+                                }
+                            </style>
+                        </div>
+                    
+                        <form action="#" th:action="@{/login}" th:object="${benutzer}" method="post">
+                                <input type="text" th:field="*{benutzername}" placeholder="Benutzername"/>
+                                <input type="password" th:field="*{passwort}" placeholder="Passwort" />
+                                <!-- <span th:if="${failure}== true"style="color: red;font-family: 'Comic Sans MS'">Benutzername oder PW falsch</span> -->
+                                <br/>
+                                <button>Login</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div>  
+        <nav class="navbar bg-blue fixed-bottom">
+            <div class="container">
+                 <nav class="navbar navbar-light">
+                     <span class="navbar-text">Dieses Projekt ist das geistige Eigentum der Projektgruppe</span>
+                 </nav>
+             </div>
+            </nav>
+        </div>
+    </footer>
+
+</body>
+</html>

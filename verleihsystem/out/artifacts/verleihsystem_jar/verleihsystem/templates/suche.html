@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Suche</title>
+    <!--<link rel="stylesheet" type="text/css" href="css/bootstrap.css">-->
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" type="text/css" />
+</head>
+<body class="bg-dark">
+        <div class="trailer">
+                <nav class="navbar bg-blue fixed-top">
+                       <div class="container">
+                            <nav class="navbar navbar-light"><a class="navbar-brand" href="#"><img src="img/fhlogo.svg" width="20%" height="20%"/></a></nav>
+                        </div>
+                </nav>
+        
+                <div class="jumbotron">
+                    <div class="container">
+                        <div class="card">
+                                <div class="card-block">
+                                    <h1>ARTIKELSUCHE</h1>
+                                </div>
+                        </div>
+                        
+                    </div>
+                   
+                </div>
+
+            <div class="container">
+                <div class="row" style="padding-bottom: 0.5%">
+                    <div class="col-md-6" style="margin: 0 auto;">
+                        <div class="card">
+                            <nav>
+                                <div class="drowdown">
+                                    <form action="#" th:action="@{/dashboard}" th:object="${benutzer}" method="get">
+                                        <button class="dropbtn">Einstellungen</button>
+                                        <div class="dropdown-content">
+                                            <a th:href="@{/dashboard}">Dashboard</a>
+                                            <a th:href="@{/logout}">Abmelden</a>
+                                            <a href="#">Konto löschen</a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card" style="width:100%">
+                        <table bgcolor="white" border="0" cellpadding="0" cellspacing="0" id="header-fixed" width="100%" overflow="scroll" class="scrollTable">
+                                <thead>
+                                <tr>
+                                    <td><b>Artikel-ID</b></td>
+                                    <td><b>Artikelname</b></td>
+                                    <td><b>Kategorie</b></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each = "artikel : ${artikelliste}">
+                                    <td><a th:href="@{/artikel/}+${artikel.id}" th:text="${artikel.id}"></a></td>
+                                    <td th:text = "${artikel.beschreibung}">beschreibung</td>
+                                    <td th:text = "${artikel.kategorie.bezeichnung}">kategorie</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+                <div>  
+                <nav class="navbar bg-blue fixed-bottom">
+                    <div class="container">
+                         <nav class="navbar navbar-light">
+                             <span class="navbar-text">Dieses Projekt ist das geistige Eigentum der Projektgruppe</span>
+                         </nav>
+                     </div>
+                    </nav>
+                </div>
+            </footer>
+</body>
+</html>
